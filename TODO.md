@@ -1,0 +1,1 @@
+- icon next to url in browse view
