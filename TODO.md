@@ -1,1 +1,2 @@
 - icon next to url in browse view
+- expand short urls
