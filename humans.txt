@@ -1,11 +1,14 @@
 # humanstxt.org/
 # The humans responsible & technology colophon
 
-# TEAM
+/* TEAM */
 
-    Victor Häggqvist -- Developer -- @victorhggqvst
+Developer: Victor Häggqvist
+Site: http://victorhaggqvist.com
+Twitter: @victorhggqvst
+Location: Stockholm, Sweden
 
-# TECHNOLOGY COLOPHON
-
-    HTML5, CSS3
-    jQuery, Modernizr
+/* SITE */
+Last update: 2014-01-26
+Standards: HTML5, CSS3, JavaScript, SASS
+Components: Modernizr, jQuery, Twitter Bootstrap
