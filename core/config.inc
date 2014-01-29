@@ -3,7 +3,6 @@
 define('ASSETS_PATH', 'assets/');
 define('CORE_PATH', 'core/');
 define('TEMPLATES_PATH', ASSETS_PATH.'templates/');
-// define('OPENID_CALLBACK', "http://stack.snilius.com");
 define('OPENID_CALLBACK', "http://localhost/stash");
 
 $db_conf=new stdClass;
