@@ -7,7 +7,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Link Stack</title>
-        <meta name="description" content="A place to stash your links, instead of having them flood your bookmarks">
+        <meta name="description" content="A place to stack your links, instead of having them flood your bookmarks">
         <meta name="viewport" content="width=device-width">
 
         <link type="text/plain" rel="author" href="./humans.txt" />
