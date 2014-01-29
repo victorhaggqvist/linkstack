@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-    
+
     grunt.initConfig({
       pkg: grunt.file.readJSON('package.json'),
       sass: {
@@ -9,7 +9,7 @@ module.exports = function(grunt) {
             sourcemap : true
           },
           files: {
-            './assets/css/stash.css': './assets/sass/*.scss'
+            './assets/css/stack.css': './assets/sass/*.scss'
           }
         },
         prod: {
@@ -18,12 +18,12 @@ module.exports = function(grunt) {
             sourcemap : false
           },
           files: {
-            './assets/css/stash.min.css': './assets/sass/*.scss'
+            './assets/css/stack.min.css': './assets/sass/*.scss'
           }
         }
       },
       watch: {
-          files: ["./assets/sass/*","./assets/js/main.js"],
+          files: ["./assets/sass/*","./assets/js/stack.js"],
           tasks: ["sass","uglify"]
       },
       uglify: {
@@ -35,15 +35,15 @@ module.exports = function(grunt) {
             }
           },
           files: {
-            './assets/js/stash.min.js': ['./assets/js/main.js']
+            './assets/js/stack.min.js': ['./assets/js/stack.js']
           }
         }
       }
     });
-    
+
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    
+
     grunt.registerTask('default','watch');
 };

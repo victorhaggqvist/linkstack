@@ -1,6 +1,7 @@
 <?php
-require_once 'core/config.inc';
-require_once TEMPLATES_PATH.'head.php';
+
+require_once 'core/include.inc';
+require_once TEMPLATES_PATH.'html_head.php';
 
 use Snilius\Util\PDOHelper;
 use Snilius\Util\Bootstrap\Alert;
@@ -26,7 +27,7 @@ $page = (isset($_GET['page']))?$_GET['page']:1;
       $resultset = array();
       $resultset['count'] = $stashManager->getCount();
 
-      if (isset($_GET['q'])) {
+      if (isset($_GET['q'])&&strlen($_GET['q'])>0) {
         $q = $_GET['q'];
         $tags = isset($_GET['tags']);
 
@@ -44,7 +45,7 @@ $page = (isset($_GET['page']))?$_GET['page']:1;
         <div class="row">
           <div class="col-lg-6">
             <div class="input-group">
-              <input type="search" class="form-control" id="q" placeholder="Search" name="q" value="<?php echo @$_GET['q']; ?>">
+              <input type="search" class="form-control" id="q" placeholder="Enter a tag, title or what ever you whant" name="q" value="<?php echo @$_GET['q']; ?>">
               <span class="input-group-btn">
                 <button class="btn btn-default" type="submit">Search</button>
               </span>
@@ -62,28 +63,33 @@ $page = (isset($_GET['page']))?$_GET['page']:1;
       <div class="row">
         <div class="col-lg-12">
           <?php
-            $total = ceil($resultset['count']/30);
-            $tpage = ($total>1)?'pages':'page';
-            echo '<div style="display: block; margin-top: 2px;">Listing '.$resultset['count'].' links in '.$total.' '.$tpage.'</div>';
+            if ($resultset['count']>0) {
+              $total = ceil($resultset['count']/30);
+              $tpage = ($total>1)?'pages':'page';
+              echo '<div style="display: block; margin-top: 2px;">Listing '.$resultset['count'].' links in '.$total.' '.$tpage.'</div>';
 
-            $paging = new Paginator($resultset['count'],30);
-            $pages = $paging->getPagination($page);
+              $paging = new Paginator($resultset['count'],30);
+              $pages = $paging->getPagination($page);
 
-            function makeLink($href,$text,$class=''){
-              $cls=($class=='')?'':'class="'.$class.'"';
-              return '<li '.$cls.'><a href="'.$href.'">'.$text.'</a>';
+              function makeLink($href,$text,$class=''){
+                $cls=($class=='')?'':'class="'.$class.'"';
+                return '<li '.$cls.'><a href="'.$href.'">'.$text.'</a>';
+              }
+
+              echo '<ul class="pagination" style="margin: 4px 0 0 0;">';
+              echo makeLink($pages['prev'],'&laquo;');
+              foreach ($pages['nav'] as $key => $value) {
+                if (($key+1)==$page)
+                  echo makeLink($value,$key+1,'active');
+                else
+                  echo makeLink($value,$key+1);
+              }
+              echo makeLink($pages['next'],'&raquo;');
+              echo '</ul>';
+            }else{
+              echo 'Your stack are underflowing at the moment (aka there are no items present). Go ahead and a an <a href="./">item</a>.';
             }
 
-            echo '<ul class="pagination" style="margin: 4px 0 0 0;">';
-            echo makeLink($pages['prev'],'&laquo;');
-            foreach ($pages['nav'] as $key => $value) {
-              if (($key+1)==$page)
-                echo makeLink($value,$key+1,'active');
-              else
-                echo makeLink($value,$key+1);
-            }
-            echo makeLink($pages['next'],'&raquo;');
-            echo '</ul>';
 
           ?>
 
@@ -104,7 +110,7 @@ $page = (isset($_GET['page']))?$_GET['page']:1;
                 $icon = '<img src="https://www.google.com/s2/favicons?domain='.$i['url'].'" alt="favicon"> ';
                 $displayLink = (strlen($i['url'])>55)?substr($i['url'], 0,55).'...':$i['url'];
                 $displayTitle = (strlen($i['title'])>50)?substr($i['title'], 0,50).'...':$i['title'];
-                $link = '<a href="'.$i['url'].'" title="'.$i['url'].'">'.$displayLink.'</a>';
+                $link = '<a href="go.php?url='.urlencode($i['url']).'" title="'.$i['url'].'">'.$displayLink.'</a>';
                 echo '<tr>'.
                      '<td>'.$i['id'].'</td>'.
                      '<td>'.$icon.$link.'</td>'.
