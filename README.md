@@ -3,7 +3,7 @@ Link Stack
 A place to stack your links, instead of having them flood your bookmarks. View live and try it out at [http://stack.snilius.com](http://stack.snilius.com).
 
 #Install
-To install Link Stack your self either clone or [download](https://github.com/victorhaggqvist/xquisitor/archive/master.zip) the repo.
+To install Link Stack your self either clone or [download](https://github.com/victorhaggqvist/linkstack/archive/master.zip) the repo.
 
 Then do as following:
 
