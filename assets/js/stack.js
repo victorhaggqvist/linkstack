@@ -54,23 +54,29 @@ $('#push-it').click(function(event) {
   var itemTags = $('#tags');
   var notify = $('#notify');
 
-  if ( itemUrl.val().length>11 ){
+  // add http:// if there is no uri pressent
+  var urified = (hasUri(itemUrl.val()))?itemUrl.val():'http://'+itemUrl.val();
+
+  if ( urified.length>10 ){
+    console.log('in');
+
     $.ajax({
       url: './api.php',
-      data: {method: "new", token: getCookie('token'), url: itemUrl.val(), title: itemTitle.val(), tags: itemTags.val()},
+      data: {method: "new", token: getCookie('token'), url: urified, title: itemTitle.val(), tags: itemTags.val()},
       type: 'POST',
       beforeSend: function() {
         button.html('Pushing...');
         button.prop("disabled", true );
       },
       success: function(result) {
+        $('#woop').html(result);
         if(result == 1){
-          $('#notify-text').html(itemUrl.val()+" stashed!");
+          $('#notify-text').html(urified+" stashed!");
           notify.addClass( "alert-success" );
           $('#notify').slideDown("slow");
-          putRecent(itemUrl.val(), itemTitle.val(), itemTags.val());
+          putRecent(urified, itemTitle.val(), itemTags.val());
         }else{
-          $('#notify-text').html(itemUrl.val()+" stashed!");
+          $('#notify-text').html("Some thing went wrong.. try again");
           notify.addClass( "alert-warning" );
           notify.slideDown("slow");
         }
@@ -140,4 +146,13 @@ function putRecent(url,title,tags) {
   '</tr>';
 
   $('#recentlist tbody').prepend(item);
+}
+
+function hasUri (url) {
+  var regex = /([a-öA-Ö]+)([:]{1})([\/]{2})(.+)/;
+  if (regex.test(url)){
+    return true;
+  }else{
+    return false;
+  }
 }

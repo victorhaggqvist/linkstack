@@ -5,15 +5,15 @@ namespace Snilius;
 use Snilius\Util\PDOHelper;
 use Snilius\OpenID\UserManager;
 class StashApi {
-  
+
   private $token
          ,$pdo
          ,$user;
-  
+
   function __construct() {
     $this->pdo = new PDOHelper($GLOBALS['db_conf']);
   }
-  
+
   /**
    * Check if token is valid
    * @param string $token
@@ -25,10 +25,10 @@ class StashApi {
     if ($userManager->tokenExixts($token)){
       $this->user = $userManager->getUser();
       return true;
-    }else 
+    }else
       return false;
   }
-  
+
   /**
    * Add item to stash
    * @param string $url
@@ -37,10 +37,11 @@ class StashApi {
    */
   public function newItem($url,$title,$tags) {
     $stashItem = new StashItem($this->pdo);
+    // [todo] - make it return json vith ACK and db id as json
     if($stashItem->newItem($url, $title, $tags, $this->user['id']))
       echo "1"; //ACK item
   }
-  
+
   /**
    * Detete item from stash
    * @param int $id item id
@@ -50,7 +51,7 @@ class StashApi {
     if($stashItem->deleteItem($id))
       echo '1'; //ACK item
   }
-  
+
   function __destruct() {
     $this->pdo=null;
   }
