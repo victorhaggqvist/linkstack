@@ -9,7 +9,7 @@
         Licensed under GPL
       </div>
       <div class="col-md-4">
-        <a href="https://github.com/victorhaggqvist/link-stack">Source at GitHub</a>
+        <a href="https://github.com/victorhaggqvist/linkstack">Source at GitHub</a>
       </div>
     </div>
   </footer>
