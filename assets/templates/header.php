@@ -14,7 +14,7 @@ use Snilius\Util\Gravatar;
       <li <?php echo (strpos($_SERVER['PHP_SELF'],"browse")!==false)?'class="active"':""; ?>><a href="browse.php">Browse Stack</a></li>
       <li class="pull-right">
         <?php
-        echo 'Signed in as <strong>'.$user['email'].'</strong> <img src="'.Gravatar::getAvatar($user['email'],40).' alt="avatar" />'.
+        echo '<strong>'.$user['email'].'</strong> <img src="'.Gravatar::getAvatar($user['email'],40).' alt="avatar" />'.
              '<a href="logout.php" style="display: inline-block; margin-left: 5px;" class="btn btn-default" role="button">Sign out</a>';
         ?>
       </li>
