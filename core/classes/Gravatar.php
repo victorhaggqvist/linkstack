@@ -3,7 +3,7 @@
 namespace Snilius\Util;
 
 /**
- * 
+ *
  * @author victor
  *
  */
@@ -17,13 +17,13 @@ class Gravatar {
    */
   public static function getAvatar($email,$size='',$type='') {
     $hash = md5(strtolower(trim($email)));
-    $url = 'http://www.gravatar.com/avatar/';
-    
+    $url = 'http://www.gravatar.com/avatar/'.$hash;
+
     if ($type!='')
       $url.='.'.$type;
     if ($size!='')
       $url.='?s='.$size;
-    
+
     return $url;
   }
 }
