@@ -3,14 +3,13 @@ function loadtitle() {
   var url = $('#url');
   var title = $('#title');
 
-  // [todo] - use regex to check if url is valid
-  /*var regex = "(http|https)(:\/\/)[a-ö]+(.)?";
-  var p = new RegExp(regex,["i"]);
-  var m = p.exec();*/
-  if(url.val().length>10){
+  // add http:// if there is no uri pressent
+  var urified = (hasUri(url.val()))?url.val():'http://'+url.val();
+
+  if(urified.length>10){
     $.ajax({
       url: 'core/getpagetitle.php',
-      data: {"url": url.val()},
+      data: {"url": urified},
       beforeSend: function() {
         title.addClass('loading');
       },
