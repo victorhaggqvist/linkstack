@@ -3,6 +3,7 @@
 namespace Snilius\OpenID;
 
 use Snilius\Util\PDOHelper;
+
 class UserManager {
 
   private $pdo
