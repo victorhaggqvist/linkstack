@@ -9,7 +9,5 @@ A place to stack your links, instead of having them flood your bookmarks. View l
 To install Link Stack your self either clone or [download](https://github.com/victorhaggqvist/linkstack/archive/master.zip) the repo.
 
 Then do as following:
-
-- Import the sql dump `stack.sql` to your MySQL database.
-- Edit the config file `core/config.inc` with appropriate database credentials
-- Edit the `OPENID_CALLBACK` constant to repsesent the path where your install is located.
+- Create a `config.inc` from `config.inc.sample`
+- Run `make`

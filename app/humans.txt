@@ -1,0 +1,14 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+/* TEAM */
+
+Developer: Victor Häggqvist
+Site: http://victorhaggqvist.com
+Twitter: @victorhggqvst
+Location: Stockholm, Sweden
+
+/* SITE */
+Last update: 2014-09-30
+Standards: HTML5, CSS3, JavaScript, SASS
+Components: Twitter Bootstrap

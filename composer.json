@@ -1,0 +1,23 @@
+{
+    "name": "snilius/linkstack",
+    "require": {
+        "lusitanian/oauth": "0.3.5",
+        "slim/slim": "2.4.3",
+        "doctrine/orm": "2.4.*"
+    },
+    "require-dev": {
+        "symfony/yaml": "2.*"
+    },
+    "license": "GPLv2",
+    "authors": [
+        {
+            "name": "Victor Häggqvist",
+            "email": "victor@snilius.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Snilius\\": "src/"
+        }
+    }
+}

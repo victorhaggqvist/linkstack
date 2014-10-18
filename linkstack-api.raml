@@ -1,0 +1,199 @@
+#%RAML 0.8
+title: LinkStack
+baseUri: http://your.stack.install.com/api
+
+/ping:
+  description: Check if the endpoint is awake
+  get:
+    description: Check if the endpoint is awake
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "ok",
+                "ping": "pong"
+              }
+
+/auth:
+  description: Test if your key is working
+  get:
+    description: Test if your key is working
+    queryParameters:
+      key:
+        displayName: Key
+        description: Your api key
+        required: true
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "ok",
+                "msg": "Authorized as [Users Fullname]"
+              }
+      401:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "fail",
+                "code": 401,
+                "msg": "Unauthorized aka. invalid api key"
+              }
+
+/items:
+  description: Item operations
+  get:
+    description: Get a list of items
+    responses:
+      200:
+        body:
+          application/json:
+            example: |
+              {
+                "status": "ok",
+                "list": [
+                  {
+                    "id": "320",
+                    "url": "http://uigradients.com/",
+                    "title": "uiGradients - Beautiful coloured gradients",
+                    "timestamp": "2014-09-07 19:43:24",
+                    "tags": "html, gradient",
+                    "userId": "5"
+                  },
+                  {
+                    "id": "319",
+                    "url": "http://razvancaliman.com/writing/css-shapes-editor-chrome/",
+                    "title": "CSS Shapes Editor for Chrome",
+                    "timestamp": "2014-09-03 10:36:44",
+                    "tags": "",
+                    "userId": "5"
+                  },
+                  ...
+                ]
+              }
+
+    queryParameters:
+      query:
+        description: A search query
+        type: string
+        example: my query string
+        required: false
+      page:
+        displayName: Page
+        type: integer
+        default: 1
+        description: The page to get
+        required: false
+      itemsPerPage:
+        displayName: Items Per Page
+        type: integer
+        default: 30
+        required: false
+        description: Number of items to receive.
+      sort:
+        displayName: Sort
+        description: Specifies the sort order of the list.
+        enum: [ASC, DESC]
+        default: ASC
+      key:
+        displayName: Key
+        description: Your api key
+        required: true
+      tags:
+        description: Query only tags
+        enum: [1, 0]
+        default: 0
+        required: false
+
+  post:
+    description: Create a new item
+    queryParameters:
+      key:
+        displayName: Key
+        description: Your api key
+        required: true
+    body:
+      application/json:
+        example: |
+          {
+            "url": "http://www.w3schools.com/html/html_charset.asp",
+            "title":"wodo",
+            "tags":"www, gogog, ss"
+          }
+    responses:
+      201:
+        description: Inserting an item responds witrh the new items id
+        body:
+          application/json:
+            example: |
+              {
+                "status": "ok",
+                "itemId": "123"
+              }
+      400:
+        description: Request body is ugly
+        body:
+          application/json:
+            example: |
+              {
+                "status": "fail",
+                "msg": "Malformed JSON request body"
+              }
+              
+  /{itemId}:
+    description: Specific item tasks
+    get:
+      description: Get an item
+      queryParameters:
+        key:
+          displayName: Key
+          description: Your api key
+          required: true
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                  "status": "ok",
+                  "item": {
+                            "id": "320",
+                            "url": "http://uigradients.com/",
+                            "title": "uiGradients - Beautiful coloured gradients",
+                            "timestamp": "2014-09-07 19:43:24",
+                            "tags": "html, gradient",
+                            "userId": "5"
+                          }
+                }
+        204:
+          description: There is no item {itemId}
+          
+    put:
+      description: Update an item
+      queryParameters:
+        key:
+          displayName: Key
+          description: Your api key
+          required: true
+      responses:
+        200:
+          description: Success
+        204:
+          description: There is no item {itemId}
+
+    delete:
+      description: Delete an item
+      queryParameters:
+        key:
+          displayName: Key
+          description: Your api key
+          required: true
+      responses:
+        200:
+          description: Success
+        204:
+          description: There is no item {itemId}

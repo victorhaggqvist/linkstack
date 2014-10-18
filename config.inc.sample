@@ -1,0 +1,34 @@
+<?php
+
+//
+// Sample config file, rename to config.inc in production
+//
+
+define('TEMPLATES_PATH', __DIR__.'/app/templates');
+
+// modify to correspond with you setup
+// For Google, get this from your api console at https://console.developers.google.com
+
+// Callback should be http://install/path/login.php
+define('OAUTH_CALLBACK', "http://localhost:8080/login.php"); // Google call this "redirect uris"
+
+define('OAUTH_CONSUMER_ID', 'fill this in');     // Google call this "client email" or "email address"
+define('OAUTH_CONSUMER_SECRET', 'fill this in'); // Google call this "client secret"
+
+define("DEVMODE", true);
+
+$dbParams = array(
+    'driver'   => 'pdo_mysql',
+    'user'     => 'root',
+    'password' => 'root',
+    'dbname'   => 'stack',
+);
+
+define('SESSION_TIMEOUT', 60*60*24*7);
+
+define('SESSION_COOKIE_NAME', 'smurf');
+
+define('ROOT_DIR', '/');
+
+define('APIKEY_LIFE', 60*60);
+?>
