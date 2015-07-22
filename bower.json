@@ -1,19 +1,7 @@
 {
-  "name": "linkstack",
-  "version": "0.1.0",
-  "authors": [
-    "Victor Häggqvist <victor@snilius.com>"
-  ],
-  "license": "GPLv2",
+  "name": "linkstack2",
   "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "dependencies": {
-    "bootstrap-sass-twbs": "~3.2.0+2"
+    "bootstrap-sass": "~3.1.1"
   }
 }

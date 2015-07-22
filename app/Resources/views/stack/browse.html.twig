@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+{% from '::macros.html.twig' import favicon %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <form action="{{ url('browse') }}" method="get" class="form-horizontal" role="form"  style="margin-top: 20px">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="q" name="q" placeholder="Make a query" style="height: 33px;" value="{{ query }}">
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default">Search</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="tags" {% if tagsOnly %}checked="checked"{% endif %}> Only tags
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <select class="form-control" name="itemsPerPage">
+                                <option disabled>Items per page</option>
+                                <option selected>30</option>
+                                <option>60</option>
+                                <option>100</option>
+                                <option>200</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div>Listing {{ pagination.getTotalItemCount }} items</div>
+                {{ knp_pagination_render(pagination) }}
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>{{ knp_pagination_sortable(pagination, '#', 'i.id') }}</th>
+                        <th>URL</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'Title', 'i.title') }}</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'Tags', 'i.tags') }}</th>
+                        <th>{{ knp_pagination_sortable(pagination, 'Timestamp', 'i.created') }}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i in pagination %}
+                        <tr>
+                            <td>{{ i.id }}</td>
+                            <td>{{ favicon(i.url) }}<a href="{{ i.url }}">{{ i.url|truncate(55) }}</a></td>
+                            <td title="{{ i.title }}">{{ i.title|truncate(50) }}</td>
+                            <td title="{{ i.tags }}">{{ i.tags|truncate(25) }}</td>
+                            <td>{{ i.created | date('Y-m-d H:i') }}</td>
+                            <td class="action"><button type="button" class="btn btn-default btn-sm delete-btn icon-button" data-id="{{ i.id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

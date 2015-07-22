@@ -1,0 +1,28 @@
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+
+# kept for reference
+#hwi_oauth_login:
+#    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+#    prefix:   /login
+
+# for the time beeing there is no point with the hwi_oauth_login route since there is only one oauth provider
+# thus redericting this
+login:
+    path: /login
+    defaults:
+        _controller: FrameworkBundle:Redirect:urlRedirect
+        path: /connect/google
+        permanent: true
+
+google_login:
+    path: /login/check-google
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+logout:
+    path: /logout
+

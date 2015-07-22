@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}Link Stack{% endblock %}</title>
+        <link href="{{ asset('css/linkstack.css') }}" rel="stylesheet" media="screen">
+
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+    <header>
+        <div class="container">
+            <h1>Link Stack</h1>
+            <nav>
+                {{ knp_menu_render('AppBundle:Builder:mainMenu', {'currentClass': 'active', 'template': 'menu.html.twig'}) }}
+            </nav>
+        </div>
+    </header>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
