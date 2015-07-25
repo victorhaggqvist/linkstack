@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "71a3b967adc5cdcffc077e088e505bde",
+    "hash": "4d013c34287e52d5f4be1d95a1a66848",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -1024,17 +1024,17 @@
         },
         {
             "name": "hwi/oauth-bundle",
-            "version": "dev-master",
+            "version": "dev-expose-oauthtoken",
             "target-dir": "HWI/Bundle/OAuthBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/hwi/HWIOAuthBundle.git",
-                "reference": "d7caff8257d7b5807f2f56d03d7bddca6484265b"
+                "url": "https://github.com/victorhaggqvist/HWIOAuthBundle.git",
+                "reference": "1ba9d4a8ef5ca77901d6575923ce32193f35d166"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hwi/HWIOAuthBundle/zipball/d7caff8257d7b5807f2f56d03d7bddca6484265b",
-                "reference": "d7caff8257d7b5807f2f56d03d7bddca6484265b",
+                "url": "https://api.github.com/repos/victorhaggqvist/HWIOAuthBundle/zipball/1ba9d4a8ef5ca77901d6575923ce32193f35d166",
+                "reference": "1ba9d4a8ef5ca77901d6575923ce32193f35d166",
                 "shasum": ""
             },
             "require": {
@@ -1068,34 +1068,33 @@
                     "HWI\\Bundle\\OAuthBundle\\": ""
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/hwi/HWIOAuthBundle/contributors"
+                    "name": "Alexander",
+                    "email": "iam.asm89@gmail.com"
                 },
                 {
                     "name": "Joseph Bielawski",
                     "email": "stloyd@gmail.com"
                 },
                 {
-                    "name": "Alexander",
-                    "email": "iam.asm89@gmail.com"
-                },
-                {
                     "name": "Geoffrey Bachelet",
                     "email": "geoffrey.bachelet@gmail.com"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/hwi/HWIOAuthBundle/contributors"
                 }
             ],
             "description": "Support for authenticating users using both OAuth1.0a and OAuth2 in Symfony2.",
             "homepage": "http://github.com/hwi/HWIOAuthBundle",
             "keywords": [
                 "37signals",
-                "Authentication",
                 "amazon",
+                "authentication",
                 "bitbucket",
                 "bitly",
                 "box",
@@ -1137,7 +1136,10 @@
                 "yahoo",
                 "yandex"
             ],
-            "time": "2015-06-09 12:27:24"
+            "support": {
+                "source": "https://github.com/victorhaggqvist/HWIOAuthBundle/tree/expose-oauthtoken"
+            },
+            "time": "2015-07-25 14:24:16"
         },
         {
             "name": "incenteev/composer-parameter-handler",
