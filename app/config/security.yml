@@ -17,6 +17,7 @@ security:
             security: false
 
         secured_area:
+            pattern: ^/(?!api)
             anonymous: ~
             oauth:
                 resource_owners:
@@ -30,26 +31,25 @@ security:
             logout:
                 path:   /logout
                 target: /
+            context: context_key
 
-        secured_area_api:
-#            pattern: ^/api
-            stateless: true
+        # this should in theory not be needed
+        ss:
+            pattern: ^/api/key
+            anonymous: ~
+
+        secured_area_api_key:
+            pattern: ^/api
+            anonymous: ~
+            context: context_key
+            # firewall can NOT be stateless, because then context does not work
+#            stateless: true
             simple_preauth:
                 authenticator: app.security.api_key_authenticator
             provider: api_key_user_provider
 
-#        main:
-#            anonymous: ~
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/key, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: ROLE_USER }
         - { path: ^/stack, roles: ROLE_USER }

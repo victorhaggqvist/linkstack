@@ -11,6 +11,7 @@ namespace AppBundle\Menu;
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
 class Builder extends ContainerAware {
 
@@ -18,28 +19,32 @@ class Builder extends ContainerAware {
         $menu = $factory->createItem('root');
         $menu->setChildrenAttribute('class', 'nav nav-pills');
 
-        $userGranted = $this->container->get('security.authorization_checker')->isGranted('ROLE_USER');
+        try {
+            $userGranted = $this->container->get('security.authorization_checker')->isGranted('ROLE_USER');
 
-        if ($userGranted) {
-            $menu->addChild('Home', array('route' => 'dash'));
-            $menu->addChild('Browse', array('route' => 'browse'));
+            if ($userGranted) {
+                $menu->addChild('Home', array('route' => 'dash'));
+                $menu->addChild('Browse', array('route' => 'browse'));
 
-            $menu->addChild('Sign out', array('route' => 'logout'))->setAttribute('class', 'pull-right');
+                $menu->addChild('Sign out', array('route' => 'logout'))->setAttribute('class', 'pull-right');
 
-            $token = $this->container->get('security.token_storage')->getToken();
-            $name = $token->getUser()->getName();
-            $avatar = $token->getUser()->getPictureUrl();
-            $menu->addChild('', array(
-                'extras' => array(
-                    'img' => $avatar,
-                ),
-            ))->setAttribute('class', 'pull-right');
-            $menu->addChild($name, array('extras' => array('label' => true)))->setAttribute('class', 'pull-right');
-        } else {
+                $token = $this->container->get('security.token_storage')->getToken();
+                $name = $token->getUser()->getName();
+                $avatar = $token->getUser()->getPictureUrl();
+                $menu->addChild('', array(
+                    'extras' => array(
+                        'img' => $avatar,
+                    ),
+                ))->setAttribute('class', 'pull-right');
+                $menu->addChild($name, array('extras' => array('label' => true)))->setAttribute('class', 'pull-right');
+            } else {
+                $menu->addChild('Home', array('route' => 'homepage'));
+                $menu->addChild('Login with Google', array('uri' => '/connect/google', 'extras' => array('connect' => true)));
+            }
+        } catch (AuthenticationCredentialsNotFoundException $e) {
             $menu->addChild('Home', array('route' => 'homepage'));
             $menu->addChild('Login with Google', array('uri' => '/connect/google', 'extras' => array('connect' => true)));
         }
-
 
         return $menu;
     }

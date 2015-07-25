@@ -9,6 +9,7 @@
 namespace AppBundle\Security;
 
 
+use Symfony\Bridge\Monolog\Logger;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\SimplePreAuthenticatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -19,10 +20,25 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 
-class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface
-{
-    public function createToken(Request $request, $providerKey)
-    {
+class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface, AuthenticationFailureHandlerInterface {
+    /**
+     * @var Logger
+     */
+    private $logger;
+
+
+    /**
+     * ApiKeyAuthenticator constructor.
+     */
+    public function __construct(Logger $logger) {
+
+        $this->logger = $logger;
+    }
+
+    public function createToken(Request $request, $providerKey) {
+//        $this->logger->debug('createToken');
+//        $this->logger->debug('$providerKey: '.$providerKey);
+//        $this->logger->debug('user: '.$request->ge);
         // look for an apikey query parameter
         $apiKey = $request->query->get('apikey');
 
@@ -39,12 +55,12 @@ class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface, Authentica
         return new PreAuthenticatedToken(
             'anon.',
             $apiKey,
+//            'context_key'
             $providerKey
         );
     }
 
-    public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
-    {
+    public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey) {
         if (!$userProvider instanceof ApiKeyUserProvider) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -73,8 +89,7 @@ class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface, Authentica
         );
     }
 
-    public function supportsToken(TokenInterface $token, $providerKey)
-    {
+    public function supportsToken(TokenInterface $token, $providerKey) {
         return $token instanceof PreAuthenticatedToken && $token->getProviderKey() === $providerKey;
     }
 
@@ -88,8 +103,8 @@ class ApiKeyAuthenticator implements SimplePreAuthenticatorInterface, Authentica
      *
      * @return Response The response to return, never null
      */
-    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
-    {
+    public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {
+        $this->logger->debug('onAuthenticationFailure');
         return new Response("Authentication Failed.", 403);
     }
 }

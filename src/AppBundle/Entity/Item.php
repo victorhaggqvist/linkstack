@@ -176,9 +176,14 @@ class Item {
             'url' => $this->url,
             'title' => $this->title,
             'user' => $this->user->getId(),
+            'tags' => array_map('trim',explode(',',$this->tags)),
             'created' => $this->created->format('Y-m-d H:i:s'),
             'modified' => $this->modified->format('Y-m-d H:i:s')
         ];
+    }
+
+    public function updateModified() {
+        $this->modified = new \DateTime();
     }
 
 

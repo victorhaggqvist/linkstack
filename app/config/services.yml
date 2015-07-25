@@ -15,10 +15,12 @@ services:
             - { name: twig.extension }
     app.security.api_key_user_provider:
         class: AppBundle\Security\ApiKeyUserProvider
+        arguments: [ @monolog.logger ]
         calls:
             - [ setContainer, [ @service_container ] ]
     app.security.api_key_authenticator:
         class: AppBundle\Security\ApiKeyAuthenticator
+        arguments: [ @monolog.logger ]
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]

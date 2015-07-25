@@ -39,12 +39,44 @@ class ApiController extends Controller {
      * @Route("/api/items", name="api_list")
      * @Method("GET")
      */
-    public function listItemsAction() {
+    public function listItemsAction(Request $request) {
         $token = $this->get('security.token_storage')->getToken();
         $user = $token->getUser();
 
+        $itemsPerPage = 30;
+        $page = $request->query->getInt('page', 1);
+        $pageOffset = $itemsPerPage * ($page-1);
+        $pageLimitEnd = $itemsPerPage * $page;
+
+        $tag = $request->query->getAlnum('tag', null);
+        $queryString = $request->query->get('query', null);
+
         $em = $this->get('doctrine.orm.entity_manager');
-        $items = $repo = $em->getRepository('AppBundle:Item')->findBy(array('user' => $user), array('created' => 'desc'), 30);
+        if ($queryString != null) {
+            $dql   = "SELECT i FROM AppBundle:Item i
+                      WHERE i.user = :user AND (i.title LIKE :query OR i.url LIKE :query OR i.tags LIKE :query)
+                      ORDER BY i.created DESC";
+            $query = $em->createQuery($dql)
+                ->setFirstResult($pageOffset)
+                ->setMaxResults($itemsPerPage)
+                ->setParameter('user', $user)
+                ->setParameter('query', '%'.$queryString.'%');
+            $items = $query->execute();
+        } else if ($tag != null) {
+            $items = $repo = $em->getRepository('AppBundle:Item')
+                ->findBy(array(
+                    'user' => $user,
+                    'tags' => '%'.$tag.'%'
+                ), array('created' => 'desc'), $itemsPerPage, $pageOffset);
+        }
+        else {
+            $items = $repo = $em->getRepository('AppBundle:Item')
+                ->findBy(array(
+                    'user' => $user
+                ), array('created' => 'desc'), $itemsPerPage, $pageOffset);
+        }
+
+
 
         $json = [];
         foreach ($items as $i) {
@@ -71,7 +103,40 @@ class ApiController extends Controller {
             return new Response('', 204);
         } else {
             return new Response('', 403);
+//            return new JsonResponse(array('message' => sprintf("User '%d' not allowed to access Item '%s'", $user->getId(), $id)), 403);
         }
+    }
+
+    /**
+     * @Route("/api/items/{id}", name="api_update_item")
+     * @Method("PUT")
+     */
+    public function updateItemAction(Request $request, $id) {
+        $token = $this->get('security.token_storage')->getToken();
+        $user = $token->getUser();
+
+        $em = $this->get('doctrine.orm.entity_manager');
+        $item = $em->getRepository("AppBundle:Item")->findOneBy(array('user' => $user, 'id' => $id));
+
+        if (null == $item) {
+            return new Response('', 403);
+        }
+
+        $json = json_decode($request->getContent(), false);
+
+        if ($json['title'])
+            $item->setTitle($json['title']);
+        if ($json['url'])
+            $item->setTitle($json['url']);
+        if ($json['tags'])
+            $item->setTitle($json['tags']);
+
+        $item->updateModified();
+
+        $em->persist($item);
+        $em->flush();
+
+        return new Response('', 204);
     }
 
     /**
@@ -83,7 +148,11 @@ class ApiController extends Controller {
         $idToken = $request->getContent();
 
         $userProvider = $this->get('app.security.user_provider');
-        $user = $userProvider->loadUserByJWTIdToken($idToken);
+        try {
+            $user = $userProvider->loadUserByJWTIdToken($idToken);
+        } catch(\Google_Auth_Exception $e) {
+            return new JsonResponse(array('message' => $e->getMessage()), 400);
+        }
 
         return new JsonResponse(array('key' => $user->getApikey()->getAkey()));
     }
