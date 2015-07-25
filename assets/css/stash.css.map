@@ -1,6 +1,0 @@
-{
-"version": 3,
-"mappings": "AAIA,KAAM,CACJ,WAAW,CAAE,IAAI,CAGnB,UAAW,CACT,SAAS,CAAE,KAAK,CAChB,KAAK,CAAE,KAAK,CACZ,WAAW,CAAE,GAAG,CAChB,UAAU,CAAE,GAAG,CAGjB,OAAQ,CACN,OAAO,CAAE,IAAI",
-"sources": ["../sass/stash.scss"],
-"file": "stash.css"
-}
