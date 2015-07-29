@@ -4,6 +4,7 @@
   "dependencies": {},
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
     "gulp-csso": "^1.0.0",
     "gulp-eslint": "^0.15.0",
     "gulp-sass": "^2.0.4",
