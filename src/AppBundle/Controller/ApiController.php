@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Item;
+use GuzzleHttp\Client;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -149,7 +150,52 @@ class ApiController extends Controller {
 
         $userProvider = $this->get('app.security.user_provider');
         try {
-            $user = $userProvider->loadUserByJWTIdToken($idToken);
+            $user = $userProvider->loadUserByJWTIdToken($idToken, 'service');
+        } catch(\Google_Auth_Exception $e) {
+            return new JsonResponse(array('message' => $e->getMessage()), 400);
+        }
+
+        return new JsonResponse(array('key' => $user->getApikey()->getAkey()));
+    }
+
+    /**
+     * @Route("/api/key", name="api_get_key_client")
+     * @Method("GET")
+     */
+    public function getClientKeyAction(Request $request) {
+        /**
+         * $code is the 'Success code' which is returned in the title bar
+         * from a call to https://accounts.google.com/o/oauth2/auth with redirect_uri = urn:ietf:wg:oauth:2.0:oob:auto
+         */
+        $code = $request->query->get('code', null);
+
+        if (null == $code)
+            return new Response('', 403);
+
+        $clientId = $this->container->getParameter('google_chrome_client_id');
+        $clientSecret = $this->container->getParameter('google_chrome_secret');
+
+        $client = new Client();
+        $resp = $client->post('https://accounts.google.com/o/oauth2/token', [
+            'form_params' => [
+                'client_id' => $clientId,
+                'client_secret' => $clientSecret,
+                'code' => $code,
+                'grant_type' => 'authorization_code',
+                'redirect_uri' => 'urn:ietf:wg:oauth:2.0:oob:auto'
+            ]
+        ]);
+
+        if ($resp->getStatusCode() != 200)
+            return new Response('', 403);
+
+        $body = $resp->getBody()->getContents();
+        $json = json_decode($body, true);
+        $idToken = $json['id_token'];
+
+        $userProvider = $this->get('app.security.user_provider');
+        try {
+            $user = $userProvider->loadUserByJWTIdToken($idToken, 'native');
         } catch(\Google_Auth_Exception $e) {
             return new JsonResponse(array('message' => $e->getMessage()), 400);
         }
