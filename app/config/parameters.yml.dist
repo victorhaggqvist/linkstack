@@ -18,7 +18,11 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    # Google oauth
+    # Google oauth web
     google_client_id:     123456789-some-client.apps.googleusercontent.com
     google_client_secret: SomeSecret
+    # Google oauth client, android app
     google_service_client_id: 123456789-some-client.apps.googleusercontent.com
+    # Google oauth, for chrome extension. installed->native (other) ClientID in Cloud console
+    google_chrome_client_id: 123456789-some-client.apps.googleusercontent.com
+    google_chrome_secret: SomeSecret
