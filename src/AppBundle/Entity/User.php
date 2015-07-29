@@ -54,19 +54,6 @@ class User implements UserInterface {
     protected $apikey;
 
     /**
-     * User constructor.
-     */
-    public function __construct($payload) {
-        var_dump($payload);
-        $this->sub = $payload['sub'];
-        $this->email = $payload['email'];
-        $this->name = $payload['name'];
-        $this->pictureUrl = null;
-//        $this->pictureUrl = $response->getProfilePicture();
-    }
-
-
-    /**
      * Returns the roles granted to the user.
      *
      * <code>
@@ -180,4 +167,24 @@ class User implements UserInterface {
         return $this->apikey;
     }
 
+    /**
+     * @param mixed $name
+     */
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    /**
+     * @param mixed $sub
+     */
+    public function setSub($sub) {
+        $this->sub = $sub;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email) {
+        $this->email = $email;
+    }
 }

@@ -54,58 +54,41 @@ class UserProvider extends ContainerAware implements OAuthAwareUserProviderInter
         $rawToken = $oAuthToken->getRawToken();
         $idToken = $rawToken['id_token'];
 
-        $user = $this->loadUserByJWTIdToken($idToken, $response);
+        $user = $this->loadUserByJWTIdToken($idToken, 'browser');
+        if ($user->getName() == null) {
+            $user->setName($response->getRealName());
+            $this->em->persist($user);
+            $this->em->flush();
+        }
 
-//        // verify id_token against Google's public key and decode JWT
-//        // one may be able to extract the verification part and not need the client, but whatever
-//        $googleClient = new \Google_Client();
-//        $googleOauth = new \Google_Auth_OAuth2($googleClient);
-//
-//        $clientId = $this->container->getParameter('google_client_id');
-//        $loginTicket = $googleOauth->verifyIdToken($idToken, $clientId);
-//
-//
-//        // register user if needed
-//        $foundUser = $this->em->getRepository('AppBundle:User')->findOneBy(array('sub' => $loginTicket->getAttributes()['payload']['sub']));
-//
-//        if (null == $foundUser) {
-//            $this->logger->info('User not found, creating '.$response->getUsername());
-//            $user = new User($response, $loginTicket);
-//            $this->em->persist($user);
-//            $this->em->flush();
-//
-//            $foundUser = $user;
-//        }
-//
-//        $this->logger->info('User found '.$foundUser->getUsername());
         return $user;
     }
 
-    public function loadUserByJWTIdToken($idToken, UserResponseInterface $oauthResponse = null) {
+    public function loadUserByJWTIdToken($idToken, $clientType = 'browser') {
         // verify id_token against Google's public key and decode JWT
         // one may be able to extract the verification part and not need the client, but whatever
         $googleClient = new \Google_Client();
         $googleOauth = new \Google_Auth_OAuth2($googleClient);
 
-        if (null !== $oauthResponse)
+        $clientId = null;
+        if ($clientType == 'browser')
             $clientId = $this->container->getParameter('google_client_id');
-        else
+        else if ($clientType == 'service')
             $clientId = $this->container->getParameter('google_service_client_id');
+        else if ($clientType == 'native')
+            $clientId = $this->container->getParameter('google_chrome_client_id');
+
         $loginTicket = $googleOauth->verifyIdToken($idToken, $clientId);
-//        var_dump($loginTicket);
         $payload = $loginTicket->getAttributes()['payload'];
-
-        if (null !== $oauthResponse) {
-            $payload['name'] = $oauthResponse->getRealName();
-        }
-
 
         // register user if needed
         $foundUser = $this->em->getRepository('AppBundle:User')->findOneBy(array('sub' => $payload['sub']));
 
         if (null == $foundUser) {
             $this->logger->info('User not found, creating '.$payload['email']);
-            $user = new User($payload);
+            $user = new User();
+            $user->setSub($payload['sub']);
+            $user->setEmail($payload['email']);
 
             $akey = $this->container->get('form.csrf_provider')->generateCsrfToken('apikey');
 
