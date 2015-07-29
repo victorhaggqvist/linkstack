@@ -3,12 +3,19 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var eslint = require('gulp-eslint');
+var babel = require('gulp-babel');
 
 gulp.task('eslint', function() {
     return gulp.src(['js/**/*.js'])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failOnError());
+});
+
+gulp.task('babel', function () {
+    return gulp.src('./js/*.js')
+        .pipe(babel())
+        .pipe(gulp.dest('./web/js'));
 });
 
 gulp.task('style', function () {
