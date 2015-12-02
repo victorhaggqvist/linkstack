@@ -59,7 +59,7 @@
                             <td>{{ favicon(i.url) }}<a href="{{ i.url }}">{{ i.url|truncate(55) }}</a></td>
                             <td title="{{ i.title }}">{{ i.title|truncate(50) }}</td>
                             <td title="{{ i.tags }}">{{ i.tags|truncate(25) }}</td>
-                            <td>{{ i.created | date('Y-m-d H:i') }}</td>
+                            <td class="date">{{ i.created | date('Y-m-d H:i') }}</td>
                             <td class="action"><button type="button" class="btn btn-default btn-sm delete-btn icon-button" data-id="{{ i.id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td>
                         </tr>
                     {% endfor %}
