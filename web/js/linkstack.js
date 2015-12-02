@@ -2,8 +2,6 @@
  * Created by victor on 7/20/15.
  */
 
-'use strict';
-
 (function () {
     'use strict';
 
@@ -14,10 +12,10 @@
     var _save = document.querySelector('#form_save');
     var _table = document.querySelector('#recentlist tbody');
 
-    var METASERVICE = 'https://eternal-dynamo-704.appspot.com';
+    var METASERVICE = 'https://secret-basin-9972.herokuapp.com';
     var _fetchmutex = false;
 
-    var _serializeForm = function _serializeForm(formEle) {
+    var _serializeForm = function (formEle) {
         console.log(formEle.elements);
         return {
             title: formEle.elements[0].value,
@@ -26,7 +24,7 @@
         };
     };
 
-    var _loadinfo = function _loadinfo() {
+    var _loadinfo = function () {
         if (_fetchmutex) return;
 
         if (_url.value.length < 5) return;
@@ -35,18 +33,14 @@
 
         _fetchmutex = true;
         var apiUrl = METASERVICE + '/info?url=' + _url.value;
-        fetch(apiUrl).then(function (resp) {
-            return resp.json();
-        }, function (err) {
-            return console.error('meta fetch fail: ' + err);
-        }).then(function (ret) {
+        fetch(apiUrl).then(resp => resp.json(), err => console.error('meta fetch fail: ' + err)).then(ret => {
             if (ret === undefined) return;
             _fetchmutex = false;
-            if (ret.title !== 'None' && _title.value.length < 1) {
+            if (_title.value.length < 1) {
                 _title.value = ret.title;
             }
 
-            if (ret.meta !== 'None' && _tags.value.length < 1) {
+            if (_tags.value.length < 1) {
                 _tags.value = ret.meta;
             }
 
@@ -56,7 +50,7 @@
         });
     };
 
-    var _deleteItem = function _deleteItem() {
+    var _deleteItem = function () {
         console.log(this);
         var tempItem = this;
         var id = this.getAttribute('data-id');
@@ -65,17 +59,15 @@
         fetch('/api/items/' + id, {
             method: 'delete',
             credentials: 'include'
-        }).then(function (resp) {
+        }).then(resp => {
             if (resp.status === 204) {
                 tempItem.parentNode.parentNode.remove();
             }
             console.log(resp);
-        })['catch'](function (err) {
-            return console.error(err);
-        });
+        }).catch(err => console.error(err));
     };
 
-    var _putRecent = function _putRecent(url, title, tags, id) {
+    var _putRecent = function (url, title, tags, id) {
         var date = new Date();
         var y = date.getFullYear();
         var m = date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
@@ -108,9 +100,9 @@
             method: 'post',
             body: JSON.stringify(body),
             credentials: 'include'
-        }).then(function (resp) {
+        }).then(resp => {
             return resp.json();
-        }).then(function (json) {
+        }).then(json => {
             console.log(json);
             _putRecent(body.url, body.title, body.tags, json.id);
             _url.value = '';
@@ -118,9 +110,7 @@
             _tags.value = '';
             _save.disabled = null;
             _save.innerHTML = 'Push';
-        })['catch'](function (err) {
-            return console.error(err);
-        });
+        }).catch(err => console.error(err));
     };
 
     console.info('set hooks');
@@ -130,7 +120,7 @@
     //_push.onclick = _pushNewItem;
 
     var buttons = document.querySelectorAll('.delete-btn');
-    Array.prototype.forEach.call(buttons, function (element) {
+    Array.prototype.forEach.call(buttons, element => {
         element.onclick = _deleteItem;
     });
 

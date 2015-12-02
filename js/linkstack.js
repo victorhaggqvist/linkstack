@@ -12,7 +12,7 @@
     var _save = document.querySelector('#form_save');
     var _table = document.querySelector('#recentlist tbody');
 
-    var METASERVICE = 'https://eternal-dynamo-704.appspot.com';
+    var METASERVICE = 'https://secret-basin-9972.herokuapp.com';
     var _fetchmutex = false;
 
     var _serializeForm = function(formEle) {
@@ -39,11 +39,11 @@
         .then(ret => {
             if (ret === undefined) return;
             _fetchmutex = false;
-            if (ret.title !== 'None' && _title.value.length < 1) {
+            if (_title.value.length < 1) {
                 _title.value = ret.title;
             }
 
-            if (ret.meta !== 'None' && _tags.value.length < 1) {
+            if (_tags.value.length < 1) {
                 _tags.value = ret.meta;
             }
 
