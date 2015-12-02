@@ -8,12 +8,6 @@
             "SymfonyStandard\\": "app/SymfonyStandard/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/victorhaggqvist/HWIOAuthBundle"
-        }
-    ],
     "require": {
         "php": ">=5.3.9",
         "symfony/symfony": "2.7.*",
@@ -29,7 +23,7 @@
         "braincrafted/bootstrap-bundle": "~2.0",
         "knplabs/knp-menu-bundle": "~2",
         "knplabs/knp-paginator-bundle": "^2.4",
-        "hwi/oauth-bundle": "dev-expose-oauthtoken",
+        "hwi/oauth-bundle": "dev-master",
         "guzzlehttp/guzzle": "~6.0",
         "firebase/php-jwt": "^2.2",
         "google/apiclient": "1.0.*@dev",
