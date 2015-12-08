@@ -16,32 +16,17 @@ class StackController extends Controller {
      * @Route("/stack", name="dash")
      * @Method("GET")
      */
-    public function indexAction(Request $request) {
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token->getUser();
-        $item = new Item();
-
-        $form = $this->createFormBuilder($item)
-            // it complains about text type? skip for now, writing out and ajaxing form manual anyway
-//            ->add('title', 'text', array('attr' => array('autocomplete' => 'off')))
-//            ->add('url', 'text', array('attr' => array('autocomplete' => 'off')))
-//            ->add('tags', 'text', array('required' => false, 'attr' => array('autocomplete' => 'off')))
-//            ->add('save', 'submit', array('label' => 'Push', 'attr' => array('class' => 'btn-block')))
-            ->getForm();
-        $form->handleRequest($request);
-
-
+    public function indexAction() {
+        $user = $this->getUser();
         $em = $this->get('doctrine.orm.entity_manager');
-//        if ($form->isValid()) {
-//            $em->persist($item);
-//            $em->flush();
-//        }
 
-        $repo = $em->getRepository('AppBundle:Item');
-        $items = $repo->findBy(array('user' => $user), array('created' => 'desc'), 20);
+        $items = $em->getRepository('AppBundle:Item')->findBy(array(
+            'user' => $user
+        ), array(
+            'created' => 'desc'
+        ), 20);
 
         return $this->render(':stack:index.html.twig', array(
-            'form' => $form->createView(),
             'items' => $items
         ));
     }

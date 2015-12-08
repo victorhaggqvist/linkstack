@@ -7,7 +7,7 @@
             <div class="col-md-6">
                 <h3>Push new</h3>
 
-                {{ form_start(form, {'attr': {'class': 'form-horizontal', 'id': 'pushform'}}) }}
+                <form class="form-horizontal" id="pushform">
                     <div class="form-group">
                         <label class="control-label col-lg-2 required" for="form_title">Title</label>
                         <div class="col-lg-10">
@@ -31,8 +31,7 @@
                             <button type="submit" id="form_save" name="form[save]" class="btn-block btn btn-primary">Push</button>
                         </div>
                     </div>
-                    <input type="hidden" name="_token" value="{{ csrf_token('authenticate') }}">
-                {{ form_end(form, {'render_rest': false}) }}
+                </form>
             </div>
         </div>
         <div class="row">
