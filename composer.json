@@ -22,7 +22,7 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "knplabs/knp-menu-bundle": "~2",
         "knplabs/knp-paginator-bundle": "^2.4",
-        "hwi/oauth-bundle": "dev-master",
+        "hwi/oauth-bundle": "dev-temp-cp-s3",
         "guzzlehttp/guzzle": "~6.0",
         "firebase/php-jwt": "^2.2",
         "google/apiclient": "1.0.*@dev",
@@ -31,6 +31,12 @@
     "require-dev": {
         "sensio/generator-bundle": "~2.3"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/victorhaggqvist/HWIOAuthBundle"
+        }
+    ],
     "scripts": {
         "post-root-package-install": [
             "SymfonyStandard\\Composer::hookRootPackageInstall"
