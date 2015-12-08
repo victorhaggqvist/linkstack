@@ -10,14 +10,17 @@ namespace AppBundle\Security;
 
 
 use Symfony\Bridge\Monolog\Logger;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\User;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-class ApiKeyUserProvider extends ContainerAware implements UserProviderInterface {
+class ApiKeyUserProvider implements UserProviderInterface {
+
+    use ContainerAwareTrait;
+
     /**
      * @var Logger
      */

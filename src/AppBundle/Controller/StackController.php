@@ -22,10 +22,11 @@ class StackController extends Controller {
         $item = new Item();
 
         $form = $this->createFormBuilder($item)
-            ->add('title', 'text', array('attr' => array('autocomplete' => 'off')))
-            ->add('url', 'text', array('attr' => array('autocomplete' => 'off')))
-            ->add('tags', 'text', array('required' => false, 'attr' => array('autocomplete' => 'off')))
-            ->add('save', 'submit', array('label' => 'Push', 'attr' => array('class' => 'btn-block')))
+            // it complains about text type? skip for now, writing out and ajaxing form manual anyway
+//            ->add('title', 'text', array('attr' => array('autocomplete' => 'off')))
+//            ->add('url', 'text', array('attr' => array('autocomplete' => 'off')))
+//            ->add('tags', 'text', array('required' => false, 'attr' => array('autocomplete' => 'off')))
+//            ->add('save', 'submit', array('label' => 'Push', 'attr' => array('class' => 'btn-block')))
             ->getForm();
         $form->handleRequest($request);
 

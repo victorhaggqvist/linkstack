@@ -10,10 +10,16 @@ namespace AppBundle\Menu;
 
 
 use Knp\Menu\FactoryInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationCredentialsNotFoundException;
 
-class Builder extends ContainerAware {
+class Builder implements ContainerAwareInterface {
+
+    // Container via trait don't seem to work with Tiwg, using interface meanwhile
+    //    use ContainerAwareTrait;
+    /** @var  ContainerInterface */
+    private $container;
 
     public function mainMenu(FactoryInterface $factory, array $options) {
         $menu = $factory->createItem('root');
@@ -49,4 +55,12 @@ class Builder extends ContainerAware {
         return $menu;
     }
 
+    /**
+     * Sets the container.
+     *
+     * @param ContainerInterface|null $container A ContainerInterface instance or null
+     */
+    public function setContainer(ContainerInterface $container = null) {
+        $this->container = $container;
+    }
 }

@@ -6,21 +6,25 @@ parameters:
 services:
     app.security.user_provider:
         class: AppBundle\Security\UserProvider
-        arguments: [ @doctrine.orm.entity_manager, @monolog.logger ]
+        arguments: [ '@doctrine.orm.entity_manager', '@logger' ]
         calls:
-            - [setContainer, [ @service_container ]]
+            - [setContainer, [ '@service_container' ]]
     twig.extension.text:
         class: Twig_Extensions_Extension_Text
         tags:
             - { name: twig.extension }
     app.security.api_key_user_provider:
         class: AppBundle\Security\ApiKeyUserProvider
-        arguments: [ @monolog.logger ]
+        arguments: [ '@logger' ]
         calls:
-            - [ setContainer, [ @service_container ] ]
+            - [ setContainer, [ '@service_container' ] ]
     app.security.api_key_authenticator:
         class: AppBundle\Security\ApiKeyAuthenticator
-        arguments: [ @monolog.logger ]
+        arguments: [ '@logger' ]
+    app.menu:
+        class: AppBundle\Menu\Builder
+        calls:
+            - [setContainer, ['@service_container']]
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
