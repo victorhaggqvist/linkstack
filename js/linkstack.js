@@ -11,6 +11,8 @@
     var _tags = document.querySelector('#form_tags');
     var _save = document.querySelector('#form_save');
     var _table = document.querySelector('#recentlist tbody');
+    var _status = document.querySelector('#status');
+    var _statusMsg = document.querySelector('#statusMsg');
 
     var METASERVICE = 'https://secret-basin-9972.herokuapp.com';
     var _fetchmutex = false;
@@ -111,13 +113,20 @@
         }).then(resp => {
             return resp.json();
         }).then(json => {
-            console.log(json);
-            _putRecent(body.url, body.title, body.tags, json.id);
-            _url.value = '';
-            _title.value = '';
-            _tags.value = '';
-            _save.disabled = null;
-            _save.innerHTML = 'Push';
+            if ('message' in json) {
+                _statusMsg.innerHTML = json.message;
+                _status.style.display = 'block';
+                _save.disabled = null;
+                _save.innerHTML = 'Push';
+            } else {
+                console.log(json);
+                _putRecent(body.url, body.title, body.tags, json.id);
+                _url.value = '';
+                _title.value = '';
+                _tags.value = '';
+                _save.disabled = null;
+                _save.innerHTML = 'Push';
+            }
         }).catch(err => console.error(err));
     };
 

@@ -19,19 +19,32 @@ class ApiController extends Controller {
      */
     public function createItemAction(Request $request) {
         $user = $this->getUser();
-        $item = new Item();
-        $item->setUser($user);
 
         $jsonBody = json_decode($request->getContent(), true);
-        $item->setTitle($jsonBody['title']);
-        $item->setUrl($jsonBody['url']);
-        $item->setTags($jsonBody['tags']);
 
         $em = $this->get('doctrine.orm.entity_manager');
-        $em->persist($item);
-        $em->flush();
+        $exists = $em->getRepository('AppBundle:Item')->findOneBy(array(
+            'url' => $jsonBody['url'],
+            'user' => $user
+        ));
 
-        return new JsonResponse(['id' => $item->getId()]);
+        if ($exists != null) {
+            return new JsonResponse(array(
+                'message' => 'Duplicate item',
+                'id' => $exists->getId()
+            ));
+        } else {
+            $item = new Item();
+            $item->setUser($user);
+            $item->setTitle($jsonBody['title']);
+            $item->setUrl($jsonBody['url']);
+            $item->setTags($jsonBody['tags']);
+
+            $em->persist($item);
+            $em->flush();
+
+            return new JsonResponse(array('id' => $item->getId()));
+        }
     }
 
 
