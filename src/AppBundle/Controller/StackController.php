@@ -6,9 +6,7 @@ use AppBundle\Entity\Item;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class StackController extends Controller {
 
@@ -33,14 +31,13 @@ class StackController extends Controller {
 
     /**
      * @Route("/stack/browse", name="browse")
+     * @Method("GET")
      */
     public function browseAction(Request $request) {
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token->getUser();
+        $user = $this->getUser();
+        $em = $this->get('doctrine.orm.entity_manager');
 
-        $em    = $this->get('doctrine.orm.entity_manager');
-
-        $queryString = $request->get('q');
+        $queryString = $request->query->get('q');
         $tags = $request->query->getBoolean('tags', false);
 
         if (null !== $queryString && $tags) {
@@ -61,7 +58,6 @@ class StackController extends Controller {
             $query = $em->createQuery($dql)
                 ->setParameter('user', $user);
         }
-
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
