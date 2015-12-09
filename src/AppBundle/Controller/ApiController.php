@@ -18,8 +18,7 @@ class ApiController extends Controller {
      * @Method("POST")
      */
     public function createItemAction(Request $request) {
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token->getUser();
+        $user = $this->getUser();
         $item = new Item();
         $item->setUser($user);
 
@@ -41,8 +40,7 @@ class ApiController extends Controller {
      * @Method("GET")
      */
     public function listItemsAction(Request $request) {
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token->getUser();
+        $user = $this->getUser();
 
         $itemsPerPage = 30;
         $page = $request->query->getInt('page', 1);
@@ -92,8 +90,7 @@ class ApiController extends Controller {
      * @Method("DELETE")
      */
     public function deleteItemAction($id) {
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token->getUser();
+        $user = $this->getUser();
 
         $em = $this->get('doctrine.orm.entity_manager');
         $item = $repo = $em->getRepository('AppBundle:Item')->findOneBy(array('user' => $user, 'id' => $id));
@@ -113,8 +110,7 @@ class ApiController extends Controller {
      * @Method("PUT")
      */
     public function updateItemAction(Request $request, $id) {
-        $token = $this->get('security.token_storage')->getToken();
-        $user = $token->getUser();
+        $user = $this->getUser();
 
         $em = $this->get('doctrine.orm.entity_manager');
         $item = $em->getRepository("AppBundle:Item")->findOneBy(array('user' => $user, 'id' => $id));
