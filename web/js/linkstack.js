@@ -17,15 +17,6 @@
     var METASERVICE = 'https://secret-basin-9972.herokuapp.com';
     var _fetchmutex = false;
 
-    var _serializeForm = function (formEle) {
-        console.log(formEle.elements);
-        return {
-            title: formEle.elements[0].value,
-            url: formEle.elements[1].value,
-            tags: formEle.elements[2].value
-        };
-    };
-
     var _loadinfo = function () {
         if (_fetchmutex) return;
 
@@ -95,7 +86,11 @@
     _save.onclick = function (event) {
         event.preventDefault();
 
-        var body = _serializeForm(_form);
+        var body = {
+            title: _title.value,
+            url: _url.value,
+            tags: _tags.value
+        };
         _save.innerHTML = 'Pushing...';
         _save.disabled = 'disabled';
         fetch('/api/items', {
