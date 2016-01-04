@@ -14,7 +14,8 @@
     var _status = document.querySelector('#status');
     var _statusMsg = document.querySelector('#statusMsg');
 
-    var METASERVICE = 'https://secret-basin-9972.herokuapp.com';
+    //var METASERVICE = 'https://rock-sorter-825.appspot.com/get?url=https://secret-basin-9972.herokuapp.com';
+    var METASERVICE = 'https://tool.stack.snilius.com';
     var _fetchmutex = false;
 
     var _loadinfo = function () {
