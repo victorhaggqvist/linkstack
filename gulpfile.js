@@ -37,26 +37,12 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('compress', ['babel'], function() {
-       return gulp.src('./web/js/linkstack.js')
-           .pipe(uglify())
-           .pipe(gulp.dest('./web/js'));
-
+    return gulp.src('./web/js/linkstack.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./web/js'));
 });
 
 gulp.task('build', ['fonts', 'style', 'babel']);
 gulp.task('build:dist', ['fonts', 'style', 'compress' ]);
-//
-gulp.task('default', function () {
-    gulp.start('build');
-});
-//
-//gulp.task('watch', ['serve'], function () {
-//
-//    // watch for changes
-//    gulp.watch(['app/*.html'], reload);
-//
-//    gulp.watch('app/styles/**/*.scss', ['styles']);
-//    gulp.watch('app/scripts/**/*.js', ['scripts']);
-//    gulp.watch('app/images/**/*', ['images']);
-//    gulp.watch('bower.json', ['wiredep']);
-//});
+
+gulp.task('default', ['build']);
