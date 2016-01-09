@@ -44,6 +44,7 @@
                 <table id="recentlist" class="table table-striped table-hover">
                     <thead>
                     <tr>
+                        <th>ID</th>
                         <th>URL</th>
                         <th>Title</th>
                         <th>Tags</th>
@@ -54,6 +55,7 @@
                     <tbody>
                     {% for i in items %}
                         <tr>
+                            <td><a href="{{ path('edit', {"itemId": i.id}) }}">{{ i.id }}</a></td>
                             <td>{{ favicon(i.url) }}<a href="{{ i.url }}">{{ i.url|truncate(55)|trim }}</a></td>
                             <td title="{{ i.title }}">{{ i.title|truncate(50)|trim }}</td>
                             <td title="{{ i.tags }}">{{ i.tags|truncate(25)|trim }}</td>

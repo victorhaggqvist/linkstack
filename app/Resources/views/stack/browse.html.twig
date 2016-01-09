@@ -55,7 +55,7 @@
                     <tbody>
                     {% for i in pagination %}
                         <tr>
-                            <td>{{ i.id }}</td>
+                            <td><a href="{{ path('edit', {"itemId": i.id}) }}">{{ i.id }}</a></td>
                             <td>{{ favicon(i.url) }}<a href="{{ i.url }}">{{ i.url|truncate(55)|trim }}</a></td>
                             <td title="{{ i.title }}">{{ i.title|truncate(50)|trim }}</td>
                             <td title="{{ i.tags }}">{{ i.tags|truncate(25)|trim }}</td>
