@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 class EditController extends Controller {
 
     /**
-     * @Route("/stack/{itemId}/edit", requirements={"\d+"}, name="edit")
+     * @Route("/stack/{itemId}", requirements={"itemId": "\d+"}, name="edit")
      * @Method({"GET", "POST"})
      */
     public function indexAction(Request $request, $itemId) {
@@ -39,9 +39,19 @@ class EditController extends Controller {
                     'label' => 'Save and return',
                     'attr' => array('class' => 'btn btn-primary'))
             )
+            ->add('submit_delete', SubmitType::class, array(
+                    'label' => 'Delete',
+                    'attr' => array('class' => 'btn btn-danger'))
+            )
             ->getForm();
 
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->get('submit_delete')->isClicked()) {
+            $em->remove($item);
+            $em->flush();
+            return $this->redirectToRoute('dash');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($item);
