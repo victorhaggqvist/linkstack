@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dabd631f0a7a2b9e1b7851560c931b6d",
-    "content-hash": "7069be61a6bdf36ba4d0aad07fdf7a2c",
+    "hash": "59697794e4ffb433171150ec2e94a97f",
+    "content-hash": "7b05276f9cd364b590ada7a010174504",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1035,16 +1035,16 @@
         },
         {
             "name": "hwi/oauth-bundle",
-            "version": "dev-temp-cp-s3",
+            "version": "dev-temp-cp-s3-1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/victorhaggqvist/HWIOAuthBundle.git",
-                "reference": "29b5788da38907ac4fc52dcc7694591dfb6b6385"
+                "reference": "d74d80ebc06f8cdb28b2b477cb21a6f3fada7688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/victorhaggqvist/HWIOAuthBundle/zipball/29b5788da38907ac4fc52dcc7694591dfb6b6385",
-                "reference": "29b5788da38907ac4fc52dcc7694591dfb6b6385",
+                "url": "https://api.github.com/repos/victorhaggqvist/HWIOAuthBundle/zipball/d74d80ebc06f8cdb28b2b477cb21a6f3fada7688",
+                "reference": "d74d80ebc06f8cdb28b2b477cb21a6f3fada7688",
                 "shasum": ""
             },
             "require": {
@@ -1077,7 +1077,7 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.4-dev"
+                    "dev-master": "0.5-dev"
                 }
             },
             "autoload": {
@@ -1171,9 +1171,9 @@
                 "youtube"
             ],
             "support": {
-                "source": "https://github.com/victorhaggqvist/HWIOAuthBundle/tree/temp-cp-s3"
+                "source": "https://github.com/victorhaggqvist/HWIOAuthBundle/tree/temp-cp-s3-1"
             },
-            "time": "2015-12-08 21:37:24"
+            "time": "2016-02-20 02:36:54"
         },
         {
             "name": "incenteev/composer-parameter-handler",
