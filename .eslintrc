@@ -2,7 +2,8 @@
     "parser": "babel-eslint",
     "env": {
         "browser": true,
-        "es6": true
+        "es6": true,
+        "node": true
     },
     "rules": {
         "quotes": [1, "single", "avoid-escape"],
@@ -12,5 +13,8 @@
         "no-unused-vars": [2, {"vars": "local", "args": "after-used"}],
         "no-console": [1]
     },
-    "extends": "eslint:recommended"
+    "extends": "eslint:recommended",
+    "globals": {
+        "BUILD_DEV": true
+    }
 }
