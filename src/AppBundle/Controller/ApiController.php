@@ -38,7 +38,14 @@ class ApiController extends Controller {
             $item->setUser($user);
             $item->setTitle($jsonBody['title']);
             $item->setUrl($jsonBody['url']);
-            $item->setTags($jsonBody['tags']);
+            if (is_array($jsonBody['tags'])) {
+                $tags = array_reduce($jsonBody['tags'], function($a, $b) {
+                    return $a == null ? $b : "$a, $b";
+                }, null);
+                $item->setTags($tags);
+            } else {
+                $item->setTags($jsonBody['tags']);
+            }
 
             $em->persist($item);
             $em->flush();
@@ -58,7 +65,6 @@ class ApiController extends Controller {
         $itemsPerPage = 30;
         $page = $request->query->getInt('page', 1);
         $pageOffset = $itemsPerPage * ($page-1);
-        $pageLimitEnd = $itemsPerPage * $page;
 
         $tag = $request->query->getAlnum('tag', null);
         $queryString = $request->query->get('query', null);
@@ -87,8 +93,6 @@ class ApiController extends Controller {
                     'user' => $user
                 ), array('created' => 'desc'), $itemsPerPage, $pageOffset);
         }
-
-
 
         $json = [];
         foreach ($items as $i) {

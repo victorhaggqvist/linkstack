@@ -16,7 +16,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('style', function () {
-    return gulp.src('style/*.scss')
+    return gulp.src('style/linkstack.scss')
         .pipe(sass({
             outputStyle: 'compressed',
             includePaths: [
@@ -36,46 +36,46 @@ gulp.task('pack:prod', ['lint'], function() {
     });
 
     webpackConf.plugins = [buildVarsPlugin];
-    webpackConf.loaders[0].query.plugins =  ['uglify:after']; // REVIEW why does nothing happen??
+    // TODO make minifying plugin work
 
-    return gulp.src('js/linkstack.js')
+    return gulp.src('./js/dashboard.js')
         .pipe(gulpWebpack(webpackConf))
         .pipe(gulp.dest('./web/js'));
 
 });
 
-gulp.task('build', ['fonts', 'style', 'pack']);
-gulp.task('build:dist', ['fonts', 'style', 'pack:prod' ]);
-
-gulp.task('default', ['build']);
-
 var webpackConf = {
     output: {
-        filename: 'linkstack.js'
+        filename: 'dashboard.min.js'
     },
-    loaders: [
-        {
-            test: /\.js?$/,
-            exclude: /(bower_components)/,
-            loader: 'babel',
-            query: {
-                presets: ['es2015']
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loader: 'babel',
+                query: {
+                    presets: ['react', 'es2015']
+                }
             }
-        }
-    ]
+        ]
+    }
 };
 
-gulp.task('pack', ['lint'], function() {
+gulp.task('pack', function() {
     var buildVarsPlugin = new webpack.DefinePlugin({
         BUILD_DEV: true
     });
     webpackConf.plugins = [buildVarsPlugin];
-    return gulp.src('js/linkstack.js')
+    webpackConf.watch = true;
+    webpackConf.devtool = 'source-map';
+
+    return gulp.src('./js/dashboard.js')
         .pipe(gulpWebpack(webpackConf))
-        .pipe(gulp.dest('web/js'));
+        .pipe(gulp.dest('./web/js'));
 });
 
 
-gulp.task('pack:watch', function() {
-    gulp.watch('js/linkstack.js', ['pack']);
-});
+gulp.task('build', ['fonts', 'style', 'pack']);
+gulp.task('build:dist', ['fonts', 'style', 'pack:prod' ]);
+
+gulp.task('default', ['build']);
