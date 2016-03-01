@@ -28,9 +28,15 @@ class EditController extends Controller {
         }
 
         $form = $this->createFormBuilder($item, array('attr' => array('class' => 'form-horizontal')))
-            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('title', TextType::class, array(
+                'attr' => array('class' => 'form-control'),
+                'required' => false
+            ))
             ->add('url', TextType::class, array('attr' => array('class' => 'form-control')))
-            ->add('tags', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('tags', TextType::class, array(
+                'attr' => array('class' => 'form-control'),
+                'required' => false
+            ))
             ->add('submit', SubmitType::class, array(
                     'label' => 'Save',
                     'attr' => array('class' => 'btn btn-default'))
